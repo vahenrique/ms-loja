@@ -16,48 +16,48 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import vahenrique.ms.loja.catalogo.domain.model.Categoria;
-import vahenrique.ms.loja.catalogo.domain.repository.CategoriaRepository;
-import vahenrique.ms.loja.catalogo.domain.service.CategoriaService;
+import vahenrique.ms.loja.catalogo.domain.model.Item;
+import vahenrique.ms.loja.catalogo.domain.repository.ItemRepository;
+import vahenrique.ms.loja.catalogo.domain.service.ItemService;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaController {
+@RequestMapping("/items")
+public class ItemController {
 
-	private CategoriaRepository categoriaRepository;
-	private CategoriaService categoriaService;
+	private ItemRepository itemRepository;
+	private ItemService itemService;
 
 	@GetMapping
-	public List<Categoria> listar() {
-		return categoriaRepository.findAll();
+	public List<Item> listar() {
+		return itemRepository.findAll();
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Categoria incluir(@RequestBody Categoria categoria) {
-		return categoriaService.save(categoria);
+	public Item incluir(@RequestBody Item item) {
+		return itemService.save(item);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Categoria> atualizar(@PathVariable UUID id, @RequestBody Categoria categoria) {
-		if (!categoriaRepository.existsById(id)) {
+	public ResponseEntity<Item> atualizar(@PathVariable UUID id, @RequestBody Item item) {
+		if (!itemRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
 
-		categoria.setId(id);
-		categoria = categoriaService.save(categoria);
+		item.setId(id);
+		item = itemService.save(item);
 
-		return ResponseEntity.ok(categoria);
+		return ResponseEntity.ok(item);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable UUID id) {
-		if (!categoriaRepository.existsById(id)) {
+		if (!itemRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
 
-		categoriaService.delete(id);
+		itemService.delete(id);
 
 		return ResponseEntity.noContent().build();
 	}
