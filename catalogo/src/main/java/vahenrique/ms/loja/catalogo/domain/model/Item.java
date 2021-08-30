@@ -1,13 +1,14 @@
 package vahenrique.ms.loja.catalogo.domain.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Categoria implements Serializable {
+public class Item implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +32,9 @@ public class Categoria implements Serializable {
 
 	private String nome;
 
-	@OneToMany(mappedBy = "categoria")
-	private Set<Item> items;
+	private BigDecimal valor;
+
+	@ManyToOne
+	@JoinColumn(name = "categoria_id", nullable = false)
+	private Categoria categoria;
 }
