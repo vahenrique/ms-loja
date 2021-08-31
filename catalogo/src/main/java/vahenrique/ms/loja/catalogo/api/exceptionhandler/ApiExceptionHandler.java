@@ -1,5 +1,6 @@
 package vahenrique.ms.loja.catalogo.api.exceptionhandler;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import lombok.AllArgsConstructor;
+import vahenrique.ms.loja.catalogo.api.model.ErroCampoDto;
 import vahenrique.ms.loja.catalogo.api.model.ErroDto;
 
 @AllArgsConstructor
@@ -27,11 +29,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		List<ErroDto> erros = ex.getBindingResult().getAllErrors().stream()
-				.map(error -> new ErroDto(((FieldError) error).getField(),
+		List<ErroCampoDto> campos = ex.getBindingResult().getAllErrors().stream()
+				.map(error -> new ErroCampoDto(((FieldError) error).getField(),
 						messageSource.getMessage(error, LocaleContextHolder.getLocale())))
 				.collect(Collectors.toList());
 
-		return handleExceptionInternal(ex, erros, headers, status, request);
+		ErroDto erro = new ErroDto(status.value(), OffsetDateTime.now(), "Um ou mais campos com valor inválido.",
+				campos);
+
+		return handleExceptionInternal(ex, erro, headers, status, request);
 	}
 }

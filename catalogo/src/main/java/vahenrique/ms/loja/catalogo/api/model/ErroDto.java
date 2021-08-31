@@ -1,5 +1,8 @@
 package vahenrique.ms.loja.catalogo.api.model;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,6 +10,8 @@ import lombok.Getter;
 @Getter
 public class ErroDto {
 
-	private String campo;
-	private String mensagem;
+	private Integer status;
+	private OffsetDateTime dataHora;
+	private String titulo;
+	List<ErroCampoDto> campos;
 }
