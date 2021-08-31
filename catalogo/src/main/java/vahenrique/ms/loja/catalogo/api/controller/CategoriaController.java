@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import vahenrique.ms.loja.catalogo.api.mapper.CategoriaMapper;
+import vahenrique.ms.loja.catalogo.api.model.CategoriaDto;
+import vahenrique.ms.loja.catalogo.api.model.CategoriaInputDto;
 import vahenrique.ms.loja.catalogo.domain.model.Categoria;
 import vahenrique.ms.loja.catalogo.domain.repository.CategoriaRepository;
 import vahenrique.ms.loja.catalogo.domain.service.CategoriaService;
@@ -27,28 +30,32 @@ public class CategoriaController {
 
 	private CategoriaRepository categoriaRepository;
 	private CategoriaService categoriaService;
+	private CategoriaMapper categoriaMapper;
 
 	@GetMapping
-	public List<Categoria> listar() {
-		return categoriaRepository.findAll();
+	public List<CategoriaDto> listar() {
+		return categoriaMapper.toCollectionDto(categoriaRepository.findAll());
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Categoria incluir(@RequestBody Categoria categoria) {
-		return categoriaService.save(categoria);
+	public CategoriaDto incluir(@RequestBody CategoriaInputDto categoriaInputDto) {
+		Categoria categoria = categoriaService.save(categoriaMapper.toEntity(categoriaInputDto));
+		return categoriaMapper.toDto(categoria);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Categoria> atualizar(@PathVariable UUID id, @RequestBody Categoria categoria) {
+	public ResponseEntity<CategoriaDto> atualizar(@PathVariable UUID id,
+			@RequestBody CategoriaInputDto categoriaInputDto) {
 		if (!categoriaRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
 
+		Categoria categoria = categoriaMapper.toEntity(categoriaInputDto);
 		categoria.setId(id);
 		categoria = categoriaService.save(categoria);
 
-		return ResponseEntity.ok(categoria);
+		return ResponseEntity.ok(categoriaMapper.toDto(categoria));
 	}
 
 	@DeleteMapping("/{id}")
