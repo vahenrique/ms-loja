@@ -1,6 +1,7 @@
 package vahenrique.ms.loja.loja.domain.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class Pedido implements Serializable {
 	private OffsetDateTime dtGeracao;
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
+	private BigDecimal valorFrete;
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
