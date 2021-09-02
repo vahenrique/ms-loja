@@ -35,13 +35,18 @@ public class Pedido implements Serializable {
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private UUID id;
+
 	private OffsetDateTime dtGeracao;
+
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
+
 	private BigDecimal valorFrete;
+
 	@ManyToOne
-	@JoinColumn(name = "cliente_id", nullable = false)
+	@JoinColumn(name = "cliente_id", nullable = true)
 	private Cliente cliente;
+
 	@OneToMany(mappedBy = "pedido")
 	private Set<PedidoItem> pedidoItems;
 }

@@ -29,9 +29,11 @@ public class PedidoItem implements Serializable {
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private UUID id;
+
 	@ManyToOne
-	@JoinColumn(name = "cliente_id", nullable = false)
+	@JoinColumn(name = "pedido_id", nullable = false)
 	private Pedido pedido;
+
 	private UUID catalogoItemId;
 	private String nome;
 	private BigDecimal quantidade;
