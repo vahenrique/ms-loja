@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -31,6 +33,9 @@ public class Transporte implements Serializable {
 	private UUID pedidoId;
 	private String enderecoRemetente;
 	private String enderecoDestinatario;
+
+	@Enumerated(EnumType.STRING)
 	private StatusTransporte status;
+
 	private String codigoRastreio;
 }
