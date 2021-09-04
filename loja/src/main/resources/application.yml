@@ -1,0 +1,15 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: LOJA-SERVICE
+  datasource: 
+    url: 'jdbc:mysql://localhost/loja?createDatabaseIfNotExist=true&serverTimezone=UTC'
+    username: vinicius
+    password: 'vinicius_123A'
+  jpa:
+    properties:
+      hibernate:
+        '[show_sql]': true
+        '[format_sql]': true
