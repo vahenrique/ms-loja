@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CATALOGO-SERVICE
+          uri: lb://CATALOGO-SERVICE
+          predicates:
+            - Path=/categorias/**, /items/**
+        - id: LOJA-SERVICE
+          uri: lb://LOJA-SERVICE
+          predicates:
+            - Path=/infoloja/**, /pedidos/**, /items/**
