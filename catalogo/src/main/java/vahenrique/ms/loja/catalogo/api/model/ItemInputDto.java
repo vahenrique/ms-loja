@@ -12,5 +12,5 @@ public class ItemInputDto {
 
 	private String nome;
 	private BigDecimal valor;
-	private UUID idCategoria;
+	private UUID categoriaId;
 }
