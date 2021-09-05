@@ -14,4 +14,8 @@ spring:
         - id: LOJA-SERVICE
           uri: lb://LOJA-SERVICE
           predicates:
-            - Path=/infoloja/**, /pedidos/**, /pedidoitems/**, /catalogo/**
+            - Path=/infoloja/**, /clientes/**, /pedidos/**, /pedidoitems/**, /catalogo/**
+        - id: TRANSPORTADORA-SERVICE
+          uri: lb://TRANSPORTADORA-SERVICE
+          predicates:
+            - Path=/transportes/**

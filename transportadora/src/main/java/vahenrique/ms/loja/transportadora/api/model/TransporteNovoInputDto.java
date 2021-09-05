@@ -18,12 +18,13 @@ public class TransporteNovoInputDto {
 	private UUID pedidoId;
 
 	@NotBlank
-	@Size(max = 60)
+	@Size(max = 120)
 	private String enderecoRemetente;
 
 	@NotBlank
-	@Size(max = 60)
+	@Size(max = 120)
 	private String enderecoDestinatario;
 
-	private final StatusTransporte status = StatusTransporte.AGUARDANDO;
+	@NotNull
+	private StatusTransporte status;
 }
