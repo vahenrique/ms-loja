@@ -29,7 +29,7 @@ import vahenrique.ms.loja.loja.domain.service.PedidoItemService;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("items")
+@RequestMapping("pedidoitems")
 public class PedidoItemController {
 
 	private PedidoItemRepository pedidoItemRepository;

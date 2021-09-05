@@ -35,7 +35,6 @@ public class PedidoItem implements Serializable {
 	private Pedido pedido;
 
 	private UUID catalogoItemId;
-	private String nome;
 	private BigDecimal quantidade;
 	private BigDecimal valorUnitario;
 }

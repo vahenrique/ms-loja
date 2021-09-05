@@ -13,7 +13,6 @@ public class PedidoItemDto {
 	private UUID id;
 	private UUID pedidoId;
 	private UUID catalogoItemId;
-	private String nome;
 	private BigDecimal quantidade;
 	private BigDecimal valorUnitario;
 }
