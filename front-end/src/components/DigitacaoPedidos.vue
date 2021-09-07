@@ -130,6 +130,67 @@
             </div>
           </div>
         </div>
+        <div class="col-md-12" v-if="etapa === 'checkout'">
+          <div class="container">
+            <div class="row">
+              <form
+                @submit.prevent="finalizarPedido"
+                method="POST"
+                autocomplete="off"
+              >
+                <div class="row">
+                  <div class="col-md mb-3">
+                    <label for="valorFrete">Valor do Frete</label>
+                    <input
+                      id="valorFrete"
+                      type="number"
+                      class="form-control"
+                      placeholder=""
+                      v-model="pedido.valorFrete"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md mb-3">
+                    <label for="cliente">Cliente</label>
+                    <select
+                      class="form-control"
+                      id="cliente"
+                      v-model="pedido.clienteId"
+                    >
+                      <option
+                        v-for="cliente of clientes"
+                        :key="cliente.id"
+                        :value="cliente.id"
+                      >
+                        {{ cliente.nome }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md mb-3">
+                    <button type="submit" class="btn btn-success btn-block">
+                      <i class="fas fa-save"></i>
+                      Finalizar
+                    </button>
+                  </div>
+                  <div class="col-md mb-3">
+                    <button
+                      class="btn btn-danger btn-block"
+                      @click="descartarPedido()"
+                    >
+                      <i class="fas fa-trash"></i>
+                      Excluir
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col" v-else>
         <div class="alert alert-warning" role="alert">
@@ -145,6 +206,7 @@
 
 <script>
 import InfoLojaService from "../services/infoLoja";
+import ClientesService from "../services/clientes";
 import PedidosService from "../services/pedidos";
 import PedidoItemsService from "../services/pedidoItems";
 import CatalogoService from "../services/catalogo";
@@ -166,11 +228,13 @@ export default {
         transporteId: "",
       },
       catalogoItems: [],
+      clientes: [],
     };
   },
   mounted() {
-    this.verificarInfoLoja();
-    this.etapa = "novo";
+    if (this.etapa === "novo") {
+      this.verificarInfoLoja();
+    }
   },
   methods: {
     verificarInfoLoja() {
@@ -252,6 +316,32 @@ export default {
     },
     checkout() {
       this.etapa = "checkout";
+      ClientesService.listar().then((resposta) => {
+        this.clientes = resposta.data;
+      });
+    },
+    finalizarPedido() {
+      PedidosService.finalizar(this.pedido)
+        .then((resposta) => {
+          this.reset();
+          console.log(resposta);
+        })
+        .catch((e) => {
+          alert(Commons.formatarErro(e.response.data));
+        });
+    },
+    descartarPedido() {
+      if (confirm("Deseja excluir o pedido?")) {
+        PedidosService.deletar(this.pedido).then((resposta) => {
+          this.reset();
+          console.log(resposta);
+        });
+      }
+    },
+    reset() {
+      this.pedido = {};
+      this.clientes = [];
+      this.etapa = "novo";
     },
   },
 };

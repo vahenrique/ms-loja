@@ -11,8 +11,10 @@ export default {
     novo: () => {
         return http.post('pedidos')
     },
-
     finalizar: (pedido) => {
-        return http.put('pedidos', pedido);
+        return http.put('pedidos/' + pedido.id, pedido);
+    },
+    deletar: (pedido) => {
+        return http.delete('pedidos/' + pedido.id);
     },
 }
