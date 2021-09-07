@@ -1,6 +1,5 @@
 package vahenrique.ms.loja.loja.api.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -32,8 +31,11 @@ public class InformacoesLojaController {
 	private InformacoesLojaMapper informacoesLojaMapper;
 
 	@GetMapping
-	public List<InformacoesLojaDto> visualizar() {
-		return informacoesLojaMapper.toCollectionDto(informacoesLojaRepository.findAll());
+	public InformacoesLojaDto visualizar() {
+		if (informacoesLojaRepository.count() == 0) {
+			return new InformacoesLojaDto();
+		}
+		return informacoesLojaMapper.toDto(informacoesLojaRepository.findAll().stream().findFirst().get());
 	}
 
 	@PostMapping

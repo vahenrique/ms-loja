@@ -1,8 +1,5 @@
 package vahenrique.ms.loja.loja.api.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +15,6 @@ public class InformacoesLojaMapper {
 
 	public InformacoesLojaDto toDto(InformacoesLoja informacoesLoja) {
 		return modelMapper.map(informacoesLoja, InformacoesLojaDto.class);
-	}
-
-	public List<InformacoesLojaDto> toCollectionDto(List<InformacoesLoja> listInformacoesLoja) {
-		return listInformacoesLoja.stream().map(this::toDto).collect(Collectors.toList());
 	}
 
 	public InformacoesLoja toEntity(InformacoesLojaDto informacoesLojaDto) {
