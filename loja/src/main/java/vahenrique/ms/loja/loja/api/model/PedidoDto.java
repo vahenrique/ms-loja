@@ -18,6 +18,7 @@ public class PedidoDto {
 	private StatusPedido status;
 	private BigDecimal valorFrete;
 	private UUID clienteId;
+	private String clienteNome;
 	private Set<PedidoItemDto> pedidoItems;
 	private UUID transporteId;
 }

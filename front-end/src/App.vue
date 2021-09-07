@@ -80,6 +80,12 @@
                 @click="ativar('pedido-digitacao')"
                 >Digitação de Pedidos</a
               >
+              <a
+                class="dropdown-item"
+                href="#"
+                @click="ativar('pedido-acompanhamento')"
+                >Acompanhamento de Pedidos</a
+              >
             </div>
           </li>
         </ul>
@@ -92,6 +98,7 @@
   <Clientes v-if="tela === 'loja-cliente'" />
   <InfoLoja v-if="tela === 'loja-infoloja'" />
   <DigitacaoPedidos v-if="tela === 'pedido-digitacao'" />
+  <AcompanhamentoPedidos v-if="tela === 'pedido-acompanhamento'" />
 </template>
 
 <script>
@@ -101,6 +108,7 @@ import CatalogoItems from "./components/CatalogoItems.vue";
 import Clientes from "./components/Clientes.vue";
 import InfoLoja from "./components/InfoLoja.vue";
 import DigitacaoPedidos from "./components/DigitacaoPedidos.vue";
+import AcompanhamentoPedidos from "./components/AcompanhamentoPedido.vue";
 
 export default {
   name: "App",
@@ -111,6 +119,7 @@ export default {
     Clientes,
     InfoLoja,
     DigitacaoPedidos,
+    AcompanhamentoPedidos,
   },
   data() {
     return {
