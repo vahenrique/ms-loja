@@ -28,7 +28,7 @@
               <a
                 class="dropdown-item"
                 href="#"
-                @click="ativar('catalogo-itens')"
+                @click="ativar('catalogo-item')"
                 >Itens</a
               >
             </div>
@@ -38,15 +38,18 @@
     </div>
   </nav>
   <Categorias v-if="tela === 'catalogo-categoria'" />
+  <CatalogoItems v-if="tela === 'catalogo-item'" />
 </template>
 
 <script>
 import Categorias from "./components/Categorias.vue";
+import CatalogoItems from "./components/CatalogoItems.vue";
 
 export default {
   name: "App",
   components: {
     Categorias,
+    CatalogoItems
   },
   data() {
     return {

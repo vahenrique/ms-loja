@@ -3,6 +3,8 @@ package vahenrique.ms.loja.catalogo.api.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,13 +41,13 @@ public class ItemController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ItemDto incluir(@RequestBody ItemInputDto itemInputDto) {
+	public ItemDto incluir(@Valid @RequestBody ItemInputDto itemInputDto) {
 		Item item = itemService.save(itemMapper.toEntity(itemInputDto));
 		return itemMapper.toDto(item);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ItemDto> atualizar(@PathVariable UUID id, @RequestBody ItemInputDto itemInputDto) {
+	public ResponseEntity<ItemDto> atualizar(@PathVariable UUID id, @Valid @RequestBody ItemInputDto itemInputDto) {
 		if (!itemRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}

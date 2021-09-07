@@ -13,5 +13,6 @@ public class ItemDto {
 	private UUID id;
 	private String nome;
 	private BigDecimal valor;
+	private UUID categoriaId;
 	private String categoriaNome;
 }
