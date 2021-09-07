@@ -57,14 +57,26 @@
         </div>
         <div class="col-md-12" v-if="etapa === 'finalizar'">
           <div class="row justify-content-end">
-            <button
-              class="btn btn-primary"
-              title="Finalizar Pedido"
-              @click="carrinho()"
-            >
-              Finalizar Pedido
-              <i class="fas fa-shopping-cart"></i>
-            </button>
+            <div class="col-sm-2">
+              <button
+                class="btn btn-primary"
+                title="Voltar ao Catálogo"
+                @click="voltarCatalogo()"
+              >
+                Voltar ao Catálogo
+                <i class="fas fa-book-open"></i>
+              </button>
+            </div>
+            <div class="col-sm-2">
+              <button
+                class="btn btn-success"
+                title="Check-out"
+                @click="checkout()"
+              >
+                Check-out
+                <i class="fas fa-save"></i>
+              </button>
+            </div>
           </div>
           <div class="row">
             <h4 class="mb-3 float-left">Itens do Pedido</h4>
@@ -73,16 +85,36 @@
                 <thead>
                   <tr>
                     <th scope="col">Nome</th>
-                    <th scope="col">Valor</th>
+                    <th scope="col">Valor Unitário</th>
                     <th scope="col">Quantidade</th>
+                    <th scope="col">Valor Total</th>
                     <th scope="col" class="text-center"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="item of pedido.pedidoItems" :key="item.id">
                     <td>{{ item.catalogoItemNome }}</td>
-                    <td>{{ item.valor }}</td>
-                    <td>{{ item.quantidade }}</td>
+                    <td>{{ item.valorUnitario }}</td>
+                    <td>
+                      <button
+                        class="btn btn-danger"
+                        title="Subtrair"
+                        style="margin-right: 1em"
+                        @click="subtrairQuantidade(item)"
+                      >
+                        <i class="fas fa-minus-circle"></i>
+                      </button>
+                      {{ item.quantidade }}
+                      <button
+                        class="btn btn-success"
+                        title="Adicionar"
+                        style="margin-left: 1em"
+                        @click="adicionarQuantidade(item)"
+                      >
+                        <i class="fas fa-plus-circle"></i>
+                      </button>
+                    </td>
+                    <td>{{ item.valorTotal }}</td>
                     <td class="text-center">
                       <button
                         @click="remover(item)"
@@ -180,19 +212,46 @@ export default {
             let pedidoItem = this.pedido.pedidoItems[i];
             CatalogoService.visualizar(pedidoItem).then((resposta) => {
               pedidoItem.catalogoItemNome = resposta.data.nome;
+              pedidoItem.valorTotal =
+                pedidoItem.quantidade * pedidoItem.valorUnitario;
             });
           }
         }
       });
     },
+    subtrairQuantidade(item) {
+      let itemAlt = Object.assign({}, item);
+      itemAlt.quantidade = item.quantidade - 1;
+      this.alterarQuantidade(itemAlt);
+    },
+    adicionarQuantidade(item) {
+      let itemAlt = Object.assign({}, item);
+      itemAlt.quantidade = item.quantidade + 1;
+      this.alterarQuantidade(itemAlt);
+    },
+    alterarQuantidade(item) {
+      PedidoItemsService.alterarQuantidade(item)
+        .then((resposta) => {
+          this.carrinho();
+          console.log(resposta);
+        })
+        .catch((e) => {
+          alert(Commons.formatarErro(e.response.data));
+        });
+    },
     remover(item) {
       if (confirm("Deseja excluir o item?")) {
-        PedidoItemsService.deletar(item)
-          .then((resposta) => {
-            this.carrinho();
-            console.log(resposta);
-          });
+        PedidoItemsService.deletar(item).then((resposta) => {
+          this.carrinho();
+          console.log(resposta);
+        });
       }
+    },
+    voltarCatalogo() {
+      this.etapa = "item";
+    },
+    checkout() {
+      this.etapa = "checkout";
     },
   },
 };
