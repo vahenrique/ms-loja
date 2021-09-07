@@ -17,7 +17,7 @@
             <button
               class="btn btn-primary"
               title="Visualizar Itens do Pedido"
-              @click="novo()"
+              @click="carrinho()"
             >
               Visualizar Itens do Pedido
               <i class="fas fa-shopping-cart"></i>
@@ -47,6 +47,49 @@
                         title="Adicionar ao Pedido"
                       >
                         <i class="fas fa-plus-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" v-if="etapa === 'finalizar'">
+          <div class="row justify-content-end">
+            <button
+              class="btn btn-primary"
+              title="Finalizar Pedido"
+              @click="carrinho()"
+            >
+              Finalizar Pedido
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+          <div class="row">
+            <h4 class="mb-3 float-left">Itens do Pedido</h4>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col" class="text-center"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item of pedido.pedidoItems" :key="item.id">
+                    <td>{{ item.catalogoItemNome }}</td>
+                    <td>{{ item.valor }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td class="text-center">
+                      <button
+                        @click="remover(item)"
+                        class="btn btn-danger"
+                        title="Remover"
+                      >
+                        <i class="fas fa-trash"></i>
                       </button>
                     </td>
                   </tr>
@@ -127,6 +170,29 @@ export default {
         .catch((e) => {
           alert(Commons.formatarErro(e.response.data));
         });
+    },
+    carrinho() {
+      PedidosService.visualizar(this.pedido).then((resposta) => {
+        this.pedido = resposta.data;
+        this.etapa = "finalizar";
+        if (this.pedido.pedidoItems.length > 0) {
+          for (let i = 0; i < this.pedido.pedidoItems.length; i++) {
+            let pedidoItem = this.pedido.pedidoItems[i];
+            CatalogoService.visualizar(pedidoItem).then((resposta) => {
+              pedidoItem.catalogoItemNome = resposta.data.nome;
+            });
+          }
+        }
+      });
+    },
+    remover(item) {
+      if (confirm("Deseja excluir o item?")) {
+        PedidoItemsService.deletar(item)
+          .then((resposta) => {
+            this.carrinho();
+            console.log(resposta);
+          });
+      }
     },
   },
 };

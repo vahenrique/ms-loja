@@ -1,5 +1,6 @@
 package vahenrique.ms.loja.loja.api.controller;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,6 +44,22 @@ public class PedidoController {
 	private PedidoService pedidoService;
 	private TransportadoraService transportadoraService;
 	private PedidoMapper pedidoMapper;
+
+	@GetMapping
+	public List<PedidoDto> listar() {
+		return pedidoMapper.toCollectionDto(pedidoRepository.findAll());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<PedidoDto> visualizar(@PathVariable UUID id) {
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
+
+		if (!optionalPedido.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(pedidoMapper.toDto(optionalPedido.get()));
+	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)

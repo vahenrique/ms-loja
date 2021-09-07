@@ -1,6 +1,7 @@
 package vahenrique.ms.loja.catalogo.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -37,6 +38,17 @@ public class ItemController {
 	@GetMapping
 	public List<ItemDto> listar() {
 		return itemMapper.toCollectionDto(itemRepository.findAll());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ItemDto> visualizar(@PathVariable UUID id) {
+		Optional<Item> optionalItem = itemRepository.findById(id);
+
+		if (!optionalItem.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(itemMapper.toDto(optionalItem.get()));
 	}
 
 	@PostMapping
