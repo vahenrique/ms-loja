@@ -10,43 +10,46 @@
               type="text"
               class="form-control"
               placeholder=""
-              v-model="item.nome"
+              v-model="cliente.nome"
             />
           </div>
         </div>
-
-         <div class="row">
-          <div class="col-md mb-3">
-            <label for="valor">Valor</label>
-            <input
-              id="valor"
-              type="number"
-              class="form-control"
-              placeholder=""
-              v-model="item.valor"
-            />
-          </div>
-        </div>
-
         <div class="row">
           <div class="col-md mb-3">
-            <label for="categoria">Categoria</label>
-            <select
+            <label for="cpf">CPF</label>
+            <input
+              id="cpf"
+              type="text"
               class="form-control"
-              id="categoria"
-              v-model="item.categoriaId"
-            >
-              <option
-                v-for="categoria of categorias"
-                :key="categoria.id"
-                :value="categoria.id"
-              >
-                {{ categoria.nome }}
-              </option>
-            </select>
+              placeholder=""
+              v-model="cliente.cpf"
+            />
           </div>
         </div>
-
+        <div class="row">
+          <div class="col-md mb-3">
+            <label for="endereco">Endereço</label>
+            <input
+              id="endereco"
+              type="text"
+              class="form-control"
+              placeholder=""
+              v-model="cliente.endereco"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md mb-3">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              type="text"
+              class="form-control"
+              placeholder=""
+              v-model="cliente.email"
+            />
+          </div>
+        </div>
         <div class="row">
           <div class="col-md mb-3">
             <button type="submit" class="btn btn-success btn-block">
@@ -60,32 +63,30 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h4 class="mb-3 float-left">Itens Cadastrados</h4>
+        <h4 class="mb-3 float-left">Clientes Cadastrados</h4>
         <div class="table-responsive">
           <table class="table table-sm">
             <thead>
               <tr>
                 <th scope="col">Nome</th>
-                <th scope="col">Valor</th>
-                <th scope="col">Categoria</th>
+                <th scope="col">CPF</th>
                 <th scope="col" class="text-center">Editar</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item of items" :key="item.id">
-                <td>{{ item.nome }}</td>
-                <td>{{ item.valor }}</td>
-                <td>{{ item.categoriaNome }}</td>
+              <tr v-for="cliente of clientes" :key="cliente.id">
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.cpf }}</td>
                 <td class="text-center">
                   <button
-                    @click="editar(item)"
+                    @click="editar(cliente)"
                     class="btn btn-primary"
                     title="Editar Dados"
                   >
                     <i class="fas fa-edit"></i>
                   </button>
                   <button
-                    @click="remover(item)"
+                    @click="remover(cliente)"
                     class="btn btn-danger"
                     title="Editar Dados"
                   >
@@ -102,41 +103,37 @@
 </template>
 
 <script>
-import CatalogoItemService from "../services/catalogoItems";
-import CategoriasService from "../services/categorias";
+import ClientesService from "../services/clientes";
 import Commons from "../services/commons";
 
 export default {
   name: "app",
   data() {
     return {
-      item: {
+      cliente: {
         id: "",
         nome: "",
-        valor: "",
-        categoriaId: "",
+        cpf: "",
+        endereco: "",
+        email: "",
       },
-      items: [],
-      categorias: [],
+      clientes: [],
     };
   },
   mounted() {
     this.listar();
-    CategoriasService.listar().then((resposta) => {
-      this.categorias = resposta.data;
-    });
   },
   methods: {
     listar() {
-      CatalogoItemService.listar().then((resposta) => {
-        this.items = resposta.data;
+      ClientesService.listar().then((resposta) => {
+        this.clientes = resposta.data;
       });
     },
     salvar() {
-      if (!this.item.id) {
-        CatalogoItemService.incluir(this.item)
+      if (!this.cliente.id) {
+        ClientesService.incluir(this.cliente)
           .then((resposta) => {
-            this.item = {};
+            this.cliente = {};
             alert("Cadastrado com sucesso!");
             this.listar();
             console.log(resposta);
@@ -145,9 +142,9 @@ export default {
             alert(Commons.formatarErro(e.response.data));
           });
       } else {
-        CatalogoItemService.atualizar(this.item)
+        ClientesService.atualizar(this.cliente)
           .then((resposta) => {
-            this.item = {};
+            this.cliente = {};
             alert("Atualizado com sucesso!");
             this.listar();
             console.log(resposta);
@@ -157,12 +154,12 @@ export default {
           });
       }
     },
-    editar(item) {
-      this.item = Object.assign({}, item);
+    editar(cliente) {
+      this.cliente = Object.assign({}, cliente);
     },
-    remover(item) {
-      if (confirm("Deseja excluir o item?")) {
-        CatalogoItemService.deletar(item)
+    remover(cliente) {
+      if (confirm("Deseja excluir o cliente?")) {
+        ClientesService.deletar(cliente)
           .then((resposta) => {
             this.listar();
             console.log(resposta);
