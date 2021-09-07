@@ -45,6 +45,9 @@
               Loja
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownLoja">
+              <a class="dropdown-item" href="#" @click="ativar('loja-infoloja')"
+                >Informações da Loja</a
+              >
               <a class="dropdown-item" href="#" @click="ativar('loja-cliente')"
                 >Clientes</a
               >
@@ -57,12 +60,14 @@
   <Categorias v-if="tela === 'catalogo-categoria'" />
   <CatalogoItems v-if="tela === 'catalogo-item'" />
   <Clientes v-if="tela === 'loja-cliente'" />
+  <InfoLoja v-if="tela === 'loja-infoloja'" />
 </template>
 
 <script>
 import Categorias from "./components/Categorias.vue";
 import CatalogoItems from "./components/CatalogoItems.vue";
 import Clientes from "./components/Clientes.vue";
+import InfoLoja from "./components/InfoLoja.vue";
 
 export default {
   name: "App",
@@ -70,6 +75,7 @@ export default {
     Categorias,
     CatalogoItems,
     Clientes,
+    InfoLoja,
   },
   data() {
     return {

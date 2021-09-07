@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import vahenrique.ms.loja.loja.api.model.InformacoesLojaDto;
+import vahenrique.ms.loja.loja.api.model.InformacoesLojaInputDto;
 import vahenrique.ms.loja.loja.domain.model.InformacoesLoja;
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class InformacoesLojaMapper {
 		return modelMapper.map(informacoesLoja, InformacoesLojaDto.class);
 	}
 
-	public InformacoesLoja toEntity(InformacoesLojaDto informacoesLojaDto) {
+	public InformacoesLoja toEntity(InformacoesLojaInputDto informacoesLojaDto) {
 		return modelMapper.map(informacoesLojaDto, InformacoesLoja.class);
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import vahenrique.ms.loja.loja.api.mapper.InformacoesLojaMapper;
 import vahenrique.ms.loja.loja.api.model.InformacoesLojaDto;
+import vahenrique.ms.loja.loja.api.model.InformacoesLojaInputDto;
 import vahenrique.ms.loja.loja.domain.model.InformacoesLoja;
 import vahenrique.ms.loja.loja.domain.repository.InformacoesLojaRepository;
 import vahenrique.ms.loja.loja.domain.service.InformacoesLojaService;
@@ -39,7 +40,7 @@ public class InformacoesLojaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> incluir(@Valid @RequestBody InformacoesLojaDto informacoesLojaDto) {
+	public ResponseEntity<Object> incluir(@Valid @RequestBody InformacoesLojaInputDto informacoesLojaDto) {
 		if (informacoesLojaRepository.count() > 0) {
 			return ResponseEntity.badRequest().body(new String("Somente permitido um registro neste cadastro."));
 		}
@@ -51,7 +52,8 @@ public class InformacoesLojaController {
 	}
 
 	@PutMapping
-	public ResponseEntity<InformacoesLojaDto> atualizar(@Valid @RequestBody InformacoesLojaDto informacoesLojaDto) {
+	public ResponseEntity<InformacoesLojaDto> atualizar(
+			@Valid @RequestBody InformacoesLojaInputDto informacoesLojaDto) {
 		if (informacoesLojaRepository.count() == 0) {
 			return ResponseEntity.notFound().build();
 		}
