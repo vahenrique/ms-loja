@@ -183,7 +183,7 @@
                       @click="descartarPedido()"
                     >
                       <i class="fas fa-trash"></i>
-                      Excluir
+                      Descartar
                     </button>
                   </div>
                 </div>

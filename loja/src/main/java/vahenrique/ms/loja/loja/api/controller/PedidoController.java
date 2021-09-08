@@ -32,7 +32,6 @@ import vahenrique.ms.loja.loja.domain.repository.InformacoesLojaRepository;
 import vahenrique.ms.loja.loja.domain.repository.PedidoRepository;
 import vahenrique.ms.loja.loja.domain.service.PedidoService;
 import vahenrique.ms.loja.loja.domain.service.TransportadoraService;
-import vahenrique.ms.loja.loja.domain.vo.TransporteVo;
 
 @AllArgsConstructor
 @RestController
@@ -94,11 +93,9 @@ public class PedidoController {
 		pedido.setCliente(optionalCliente.get());
 		pedido.setStatus(StatusPedido.FINALIZADO);
 		pedido = pedidoService.save(pedido);
-
-		TransporteVo transporteVo = transportadoraService.enviar(pedido.getId(), pedido.getCliente().getEndereco(),
-				infoLoja.getEndereco());
 		PedidoDto pedidoDto = pedidoMapper.toDto(pedido);
-		pedidoDto.setTransporteId(transporteVo == null ? null : transporteVo.getId());
+
+		transportadoraService.enviar(pedido.getId(), pedido.getCliente().getEndereco(), infoLoja.getEndereco());
 
 		return ResponseEntity.ok(pedidoDto);
 	}

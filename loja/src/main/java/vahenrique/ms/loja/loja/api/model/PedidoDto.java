@@ -20,5 +20,4 @@ public class PedidoDto {
 	private UUID clienteId;
 	private String clienteNome;
 	private Set<PedidoItemDto> pedidoItems;
-	private UUID transporteId;
 }

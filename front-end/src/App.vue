@@ -88,6 +88,11 @@
               >
             </div>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" @click="ativar('transporte')"
+              >Transporte</a
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -99,6 +104,7 @@
   <InfoLoja v-if="tela === 'loja-infoloja'" />
   <DigitacaoPedidos v-if="tela === 'pedido-digitacao'" />
   <AcompanhamentoPedidos v-if="tela === 'pedido-acompanhamento'" />
+  <Transportes v-if="tela === 'transporte'" />
 </template>
 
 <script>
@@ -109,6 +115,7 @@ import Clientes from "./components/Clientes.vue";
 import InfoLoja from "./components/InfoLoja.vue";
 import DigitacaoPedidos from "./components/DigitacaoPedidos.vue";
 import AcompanhamentoPedidos from "./components/AcompanhamentoPedido.vue";
+import Transportes from "./components/Transportes.vue";
 
 export default {
   name: "App",
@@ -120,6 +127,7 @@ export default {
     InfoLoja,
     DigitacaoPedidos,
     AcompanhamentoPedidos,
+    Transportes,
   },
   data() {
     return {

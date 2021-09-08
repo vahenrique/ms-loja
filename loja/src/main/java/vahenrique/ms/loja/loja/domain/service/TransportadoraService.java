@@ -15,13 +15,12 @@ public class TransportadoraService {
 
 	private RestTemplate restTemplate;
 
-	public TransporteVo enviar(UUID pedidoId, String enderecoDestinatario, String enderecoRemetente) {
+	public void enviar(UUID pedidoId, String enderecoDestinatario, String enderecoRemetente) {
 		TransporteVo transporteVo = new TransporteVo();
 		transporteVo.setPedidoId(pedidoId);
 		transporteVo.setEnderecoDestinatario(enderecoDestinatario);
 		transporteVo.setEnderecoRemetente(enderecoRemetente);
 		transporteVo.setStatus(StatusTransporte.AGUARDANDO);
-		return restTemplate.postForObject("http://TRANSPORTADORA-SERVICE/transportes", transporteVo,
-				TransporteVo.class);
+		restTemplate.postForObject("http://TRANSPORTADORA-SERVICE/transportes", transporteVo, TransporteVo.class);
 	}
 }
