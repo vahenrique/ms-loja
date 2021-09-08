@@ -2,14 +2,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12" v-if="visualizandoTransporte">
-        <h4 class="mb-3 float-left">Atualizar Transporte</h4>
         <div class="container">
           <div class="row">
-            <form
-              @submit.prevent="atualizar"
-              method="POST"
-              autocomplete="off"
-            >
+            <h4 class="mb-3 float-left">Atualizar Transporte</h4>
+          </div>
+          <div class="row">
+            <form @submit.prevent="atualizar" method="POST" autocomplete="off">
               <div class="row">
                 <div class="col-md mb-3">
                   <label for="codigoRastreio">Código de Rastreio</label>

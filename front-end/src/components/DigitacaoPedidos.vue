@@ -195,7 +195,7 @@
       <div class="col" v-else>
         <div class="alert alert-warning" role="alert">
           Atenção! <br />
-          Não existe Informações da Loja cadastrada. <br />
+          Não existem Informações da Loja cadastradas. <br />
           Necessário cadastrar no menu "Cadastros da Loja > Informações da Loja"
           antes de iniciar um pedido.
         </div>
