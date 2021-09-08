@@ -1,8 +1,9 @@
 # ms-loja
 
-Conjunto de microsseviços simples para modelar um sistema de vendas.<br />
+Conjunto de microsserviços simples para modelar um sistema de vendas.<br />
 Back-end: Spring Boot e Spring Cloud<br />
 Front-end: Vue.js<br />
+Banco de dados: MySql<br />
 <br />
 Serviços X Portas configuradas:<br />
 <br />
